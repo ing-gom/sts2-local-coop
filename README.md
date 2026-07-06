@@ -1,5 +1,7 @@
 # STS2 Local Co-op (Sts2SoloCoop)
 
+<img src="icon.png" width="110" align="right" alt="STS2 Local Co-op icon">
+
 Play **Slay the Spire 2 co-op solo** — run both characters yourself, on one screen.
 
 > 한국어: [README.ko.md](README.ko.md)
@@ -33,6 +35,8 @@ Grab the ready-to-use package from **[Releases](https://github.com/ing-gom/sts2-
    This launches two instances with `--fastmp` and embeds them side by side in one window
    (host auto-sorts to the left, client to the right; closing the container quits both).
    Prefer separate desktop windows? Use `./coop-launch.ps1` instead (tiles them; no embedding).
+   **No PowerShell prompt?** Just double-click **`tools/Start-LocalCoop.cmd`** — same thing, one click.
+   (Right-click it → *Create shortcut* → set its icon to `icon.ico` for a nice desktop launcher.)
 3. In each panel use the game's own **Multiplayer** menu: left → **Host**, right → **Join**
    (it auto-connects to `127.0.0.1`). Pick characters, ready up, begin.
 4. **Control both:** whichever panel/window has focus receives your input. Click a panel (or use
@@ -65,6 +69,8 @@ dotnet build -c Release
 |---|---|
 | `Sts2SoloCoopCode/` | mod source (console commands + AllowSoloBegin patch) |
 | `Sts2SoloCoop.json` | mod manifest |
+| `tools/Start-LocalCoop.cmd` | one-click launcher (double-click → runs `coop-embed.ps1`) |
+| `icon.png` / `icon.ico` | project icon (`.ico` for a desktop-shortcut icon) |
 | `tools/coop-embed.ps1` | embed both instances in one container window (grid) |
 | `tools/coop-launch.ps1` | launch + tile both instances on the desktop |
 | `tools/coop-control.ahk` | optional AutoHotkey v2: F1/F2/F3 focus switch, F4 re-tile |

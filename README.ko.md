@@ -1,5 +1,7 @@
 # STS2 로컬 협동 (Sts2SoloCoop)
 
+<img src="icon.png" width="110" align="right" alt="STS2 Local Co-op icon">
+
 **슬레이 더 스파이어 2 협동을 혼자** — 두 캐릭터를 한 사람이, 한 화면에서 조작.
 
 > English: [README.md](README.md)
