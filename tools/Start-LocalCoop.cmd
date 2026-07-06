@@ -1,4 +1,5 @@
 @echo off
-REM STS2 Local Co-op — launch two instances embedded in one window (double-click me).
-REM Edit the target below to coop-launch.ps1 if you prefer desktop tiling instead of embedding.
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0coop-embed.ps1"
+REM STS2 Local Co-op — launch two instances side by side (double-click me).
+REM Windowed borderless (correct cursor). For fullscreen-embedded-in-one-window use coop-embed.ps1;
+REM for full-screen desktop tiling drop the -Windowed flag.
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0coop-launch.ps1" -Windowed

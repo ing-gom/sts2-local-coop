@@ -30,12 +30,15 @@ Grab the ready-to-use package from **[Releases](https://github.com/ing-gom/sts2-
 1. Set the game to **Windowed** mode (Settings → Video). Keep Steam running.
 2. From this repo's `tools/` folder, in PowerShell:
    ```powershell
-   ./coop-embed.ps1
+   ./coop-launch.ps1 -Windowed
    ```
-   This launches two instances with `--fastmp` and embeds them side by side in one window
-   (host auto-sorts to the left, client to the right; closing the container quits both).
-   Prefer separate desktop windows? Use `./coop-launch.ps1` instead (tiles them; no embedding).
-   **No PowerShell prompt?** Just double-click **`tools/Start-LocalCoop.cmd`** — same thing, one click.
+   Places both instances **borderless, edge-to-edge in a centered box** — looks like one window, plays
+   **windowed**, and the in-game **cursor stays aligned**. Pick sizes with `-Width`/`-Height`.
+   - `./coop-embed.ps1` — a true single **container** window, but **full-screen only** (a *windowed*
+     reparented container offsets the cursor; press Esc to close). Great if you want one fullscreen frame.
+   - `./coop-launch.ps1` (no flag) — plain full-screen tiling (two bordered windows).
+
+   **No PowerShell prompt?** Just double-click **`tools/Start-LocalCoop.cmd`** (runs the windowed mode).
    (Right-click it → *Create shortcut* → set its icon to `icon.ico` for a nice desktop launcher.)
 3. In each panel use the game's own **Multiplayer** menu: left → **Host**, right → **Join**
    (it auto-connects to `127.0.0.1`). Pick characters, ready up, begin.
@@ -85,11 +88,12 @@ dotnet build -c Release
   `--fastmp`** (the scripts do this; a Steam-launched instance won't have it). In fastmp the Join
   screen auto-connects to `127.0.0.1` and shows no friends list — that's expected.
 - **Clicking the next map node does nothing** → co-op is a shared vote; click it in **both** windows.
-- **In-game cursor is offset when embedded** → a child window offset from the screen origin makes Godot
-  mis-map the mouse. `coop-embed.ps1` runs the container **borderless at screen (0,0)** by default to
-  keep the cursor aligned (press **Esc** to close). If you use `-Windowed` (movable container) and the
-  cursor drifts, switch back to the default — or use `coop-launch.ps1` (tiling), which never has this
-  issue since each game is a normal top-level window.
+- **In-game cursor is offset in the embedded container** → `coop-embed.ps1` reparents the games (Win32
+  `SetParent`), and a child window offset from the screen origin makes Godot mis-map the mouse. That's
+  why the embed container is **full-screen at (0,0)** (where cursor stays aligned) and a *windowed*
+  container can't. **For windowed play, use `./coop-launch.ps1 -Windowed`** — the games stay top-level
+  windows (no reparenting), so the cursor is always correct, and borderless side-by-side still looks like
+  one window.
 - **An embedded panel is black / unresponsive / jittering** → embedding a GPU game is fragile; close
   the container (that quits both games) and use `coop-launch.ps1` (plain desktop tiling) instead.
 
