@@ -13,6 +13,17 @@ container, plus a small helper mod for diagnostics.
 The connection itself uses a **built-in game flag, `--fastmp`**, which makes the normal Multiplayer
 menu host/join over ENet on `127.0.0.1` — no Steam friend needed, no dev console.
 
+## Download & install
+Grab the ready-to-use package from **[Releases](https://github.com/ing-gom/sts2-local-coop/releases)**
+(`sts2-local-coop-vX.Y.Z.zip`), then:
+1. Copy the `Sts2SoloCoop/` folder into your game's mods folder:
+   `…/Steam/steamapps/common/Slay the Spire 2/mods/Sts2SoloCoop/`
+   (so you have `mods/Sts2SoloCoop/Sts2SoloCoop.dll`, `Sts2SoloCoop.json`, `Sts2.ModKit.dll`).
+2. Keep the `tools/` folder somewhere handy — that's what you run.
+3. Enable **Sts2SoloCoop** in the in-game mod list (optional; the tools + `--fastmp` work without it).
+
+> Prefer source? Clone this repo and `dotnet build -c Release` (see [Build](#build)).
+
 ## Quick start
 1. Set the game to **Windowed** mode (Settings → Video). Keep Steam running.
 2. From this repo's `tools/` folder, in PowerShell:
@@ -58,6 +69,18 @@ dotnet build -c Release
 | `tools/coop-launch.ps1` | launch + tile both instances on the desktop |
 | `tools/coop-control.ahk` | optional AutoHotkey v2: F1/F2/F3 focus switch, F4 re-tile |
 | `tools/README.md` | full workflow details |
+
+## Troubleshooting
+- **A PowerShell script won't run** ("running scripts is disabled") → run it as
+  `powershell -ExecutionPolicy Bypass -File .\coop-embed.ps1`.
+- **Windows don't resize / tile / embed** → set the game to **Windowed** mode (exclusive/borderless
+  fullscreen ignores window positioning).
+- **The Multiplayer menu still wants a Steam friend** → both instances must be launched **with
+  `--fastmp`** (the scripts do this; a Steam-launched instance won't have it). In fastmp the Join
+  screen auto-connects to `127.0.0.1` and shows no friends list — that's expected.
+- **Clicking the next map node does nothing** → co-op is a shared vote; click it in **both** windows.
+- **An embedded panel is black / unresponsive / jittering** → embedding a GPU game is fragile; close
+  the container (that quits both games) and use `coop-launch.ps1` (plain desktop tiling) instead.
 
 ## Notes
 - Windows only (the tools use Win32 window APIs + `--fastmp`).
