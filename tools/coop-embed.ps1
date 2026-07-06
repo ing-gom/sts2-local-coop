@@ -21,6 +21,8 @@
 param(
     [switch]$NoLaunch,
     [switch]$Vertical,
+    [switch]$Windowed,   # movable bordered container (may misalign the in-game cursor); default is a
+                         # borderless container pinned to screen (0,0), which keeps the cursor aligned
     [int]$Count = 2
 )
 
@@ -86,11 +88,27 @@ $script:vertical = [bool]$Vertical
 
 # 2) Container window.
 $form = New-Object System.Windows.Forms.Form
-$form.Text = 'STS2 Co-op — embedded (close to QUIT both games)'
+$form.Text = 'STS2 Co-op — embedded'
 $form.BackColor = [System.Drawing.Color]::Black
-$form.StartPosition = 'CenterScreen'
-$form.Size = New-Object System.Drawing.Size(1600, 900)
-$form.FormBorderStyle = 'Sizable'
+$form.KeyPreview = $true
+if ($Windowed) {
+    # Movable, resizable container. NOTE: because the container's client area is NOT at screen (0,0),
+    # the embedded games' cursor can be OFFSET (a Godot child-window quirk). Use the default mode, or
+    # coop-launch.ps1 (tiling), if the cursor misaligns.
+    $form.StartPosition = 'CenterScreen'
+    $form.Size = New-Object System.Drawing.Size(1600, 900)
+    $form.FormBorderStyle = 'Sizable'
+} else {
+    # Borderless container pinned to screen (0,0). Its client origin == the screen origin, so an
+    # embedded child window's parent-relative coords equal screen coords — which keeps Godot's mouse
+    # mapping aligned (offsetting the container is what shifts the in-game cursor). Press Esc to close.
+    $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+    $form.FormBorderStyle = 'None'
+    $form.StartPosition = 'Manual'
+    $form.Location = New-Object System.Drawing.Point(0, 0)
+    $form.Size = New-Object System.Drawing.Size($b.Width, $b.Height)
+}
+$form.Add_KeyDown({ if ($_.KeyCode -eq 'Escape') { $form.Close() } })
 
 function Reflow {
     $w = $form.ClientSize.Width; $h = $form.ClientSize.Height

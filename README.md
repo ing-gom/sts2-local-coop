@@ -85,6 +85,11 @@ dotnet build -c Release
   `--fastmp`** (the scripts do this; a Steam-launched instance won't have it). In fastmp the Join
   screen auto-connects to `127.0.0.1` and shows no friends list — that's expected.
 - **Clicking the next map node does nothing** → co-op is a shared vote; click it in **both** windows.
+- **In-game cursor is offset when embedded** → a child window offset from the screen origin makes Godot
+  mis-map the mouse. `coop-embed.ps1` runs the container **borderless at screen (0,0)** by default to
+  keep the cursor aligned (press **Esc** to close). If you use `-Windowed` (movable container) and the
+  cursor drifts, switch back to the default — or use `coop-launch.ps1` (tiling), which never has this
+  issue since each game is a normal top-level window.
 - **An embedded panel is black / unresponsive / jittering** → embedding a GPU game is fragile; close
   the container (that quits both games) and use `coop-launch.ps1` (plain desktop tiling) instead.
 
