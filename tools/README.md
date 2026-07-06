@@ -60,6 +60,6 @@ Both instances live in one container; host auto-sorts to the left, client (windo
 ## Files
 | File | What |
 |---|---|
-| `coop-launch.ps1` | Launch two instances (`--fastmp`) side by side (top-level windows → cursor stays correct). `-Windowed` = borderless, one-window look, windowed; no flag = full-screen tiling. |
+| `coop-launch.ps1` | Launch two instances (`--fastmp`) side by side (top-level windows → cursor stays correct). `-Windowed` = bordered windows in a centered box (not fullscreen); add `-Seamless` for a borderless one-window look; no flag = full-screen tiling. |
 | `coop-embed.ps1` | **Experimental**: embed both instances INSIDE one container window (grid). Reparents via Win32 SetParent — may be fragile with the Godot game; falls back to `coop-launch.ps1`. |
 | `coop-control.ahk` | Optional AutoHotkey v2 script: F1/F2/F3 window focus switch, F4 re-tile. |

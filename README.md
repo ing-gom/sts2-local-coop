@@ -32,10 +32,11 @@ Grab the ready-to-use package from **[Releases](https://github.com/ing-gom/sts2-
    ```powershell
    ./coop-launch.ps1 -Windowed
    ```
-   Places both instances **borderless, edge-to-edge in a centered box** — looks like one window, plays
-   **windowed**, and the in-game **cursor stays aligned**. Pick sizes with `-Width`/`-Height`.
+   Places both instances as normal **bordered windows in a centered box (NOT fullscreen)**, side by
+   side, plays **windowed**, and the in-game **cursor stays aligned**. Pick sizes with `-Width`/`-Height`.
+   - add `-Seamless` for a borderless, edge-to-edge one-window look.
    - `./coop-embed.ps1` — a true single **container** window, but **full-screen only** (a *windowed*
-     reparented container offsets the cursor; press Esc to close). Great if you want one fullscreen frame.
+     reparented container offsets the cursor; press Esc to close).
    - `./coop-launch.ps1` (no flag) — plain full-screen tiling (two bordered windows).
 
    **No PowerShell prompt?** Just double-click **`tools/Start-LocalCoop.cmd`** (runs the windowed mode).

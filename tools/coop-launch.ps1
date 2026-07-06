@@ -10,14 +10,16 @@
 
   Modes:
     ./coop-launch.ps1                 # tile across the whole screen (bordered windows)
-    ./coop-launch.ps1 -Windowed       # borderless, edge-to-edge in a centered box → looks like one
-                                      #   window, but WINDOWED with a correct cursor (recommended)
+    ./coop-launch.ps1 -Windowed       # two normal BORDERED windows in a centered box (NOT fullscreen),
+                                      #   side by side, with a correct cursor (recommended)
     ./coop-launch.ps1 -Windowed -Width 1920 -Height 1080
+    ./coop-launch.ps1 -Windowed -Seamless   # borderless edge-to-edge (one-window look)
     ./coop-launch.ps1 -NoLaunch       # just (re)place instances that are already open
 #>
 param(
     [switch]$NoLaunch,
-    [switch]$Windowed,
+    [switch]$Windowed,   # place both in a centered box (not fullscreen); bordered windows by default
+    [switch]$Seamless,   # with -Windowed: strip borders + edge-to-edge for a one-window look
     [int]$Width  = 1600,
     [int]$Height = 900,
     [int]$Count  = 2
@@ -76,8 +78,7 @@ if ($procs.Count -lt $Count) { Write-Warning "Only $($procs.Count) window(s) rea
 # 3) Compute the region.
 $wa = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
 if ($Windowed) {
-    # A centered box; borderless + edge-to-edge → looks like one window, but each game stays a normal
-    # top-level window (cursor correct). Move/close each with the game's own controls or Alt-Tab.
+    # A centered box (NOT fullscreen). Each game stays a normal top-level window (cursor correct).
     $rw = [Math]::Min($Width,  $wa.Width)
     $rh = [Math]::Min($Height, $wa.Height)
     $rx = $wa.X + [int](($wa.Width  - $rw) / 2)
@@ -89,7 +90,7 @@ $halfW = [int]($rw / 2)
 
 $i = 0
 foreach ($p in ($procs | Select-Object -First $Count)) {
-    if ($Windowed) { [Win]::Borderless($p.MainWindowHandle) }
+    if ($Windowed -and $Seamless) { [Win]::Borderless($p.MainWindowHandle) }  # borders kept unless -Seamless
     $x = $rx + ($i * $halfW)
     $w = if ($i -eq 0) { $halfW } else { $rw - $halfW }
     [Win]::Place($p.MainWindowHandle, $x, $ry, $w, $rh)
@@ -99,5 +100,5 @@ foreach ($p in ($procs | Select-Object -First $Count)) {
 }
 Write-Host ''
 Write-Host 'Done. Click a window (or Alt-Tab) to control that character.'
-if ($Windowed) { Write-Host 'Windowed mode: borderless side-by-side. Set the game to Windowed (Settings > Video).' }
+if ($Windowed) { Write-Host "Windowed mode ($(if($Seamless){'borderless'}else{'bordered'}), centered $rw x $rh). Set the game to Windowed (Settings > Video)." }
 else { Write-Host 'If the windows did not resize, set the game to WINDOWED mode and re-run with -NoLaunch.' }
