@@ -1,0 +1,11 @@
+# Godot 4+
+.godot/
+*.translation
+
+# .NET / Rider / VS / Claude Code
+bin/
+obj/
+.idea/
+.vs/
+.claude/
+*.user

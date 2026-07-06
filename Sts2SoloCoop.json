@@ -1,0 +1,11 @@
+{
+  "id": "Sts2SoloCoop",
+  "name": "STS2 Co-op Test Kit",
+  "author": "inggom",
+  "description": "In-game diagnostics for testing STS2 co-op / multiplayer mods, meant to pair with a two-instance local co-op setup. Console: sc_probe (dump net type, players & NetIds), sc_swap <netid> (change the local-player perspective). Also patches the lobby so a solo host can begin a multiplayer-type run for solo smoke-testing. Dev tool — not a gameplay mod.",
+  "version": "v0.1.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": true
+}
